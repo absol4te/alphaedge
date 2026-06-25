@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Theme tokens as RGB channels so Tailwind opacity utilities (bg-card/10) work. */
+:root {
+  color-scheme: dark;
+  --bg: 10 10 10;
+  --surface: 18 18 18;
+  --card: 26 26 26;
+  --border: 42 42 42;
+  --foreground: 255 255 255;
+  --muted: 160 160 160;
+  --shimmer: 255 255 255;
+}
+
+html.light {
+  color-scheme: light;
+  --bg: 244 245 247;
+  --surface: 255 255 255;
+  --card: 255 255 255;
+  --border: 224 227 232;
+  --foreground: 17 18 22;
+  --muted: 99 105 117;
+  --shimmer: 0 0 0;
+}
+
+* {
+  border-color: rgb(var(--border));
+}
+
+html,
+body {
+  background-color: rgb(var(--bg));
+  color: rgb(var(--foreground));
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Custom scrollbar — terminal aesthetic */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgb(var(--bg));
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--border));
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--muted) / 0.5);
+}
+
+@layer components {
+  .glass {
+    background: linear-gradient(135deg, rgb(var(--foreground) / 0.04), rgb(var(--foreground) / 0.01));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgb(var(--foreground) / 0.06);
+  }
+
+  .glass-card {
+    background: rgb(var(--card) / 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgb(var(--foreground) / 0.06);
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+
+  .grid-fade {
+    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent);
+    mask-image: linear-gradient(to bottom, black 70%, transparent);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Loading skeleton shimmer */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: rgb(var(--surface));
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgb(var(--shimmer) / 0.06), transparent);
+  animation: shimmer 1.5s infinite;
+}
